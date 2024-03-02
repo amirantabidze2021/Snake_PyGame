@@ -7,12 +7,16 @@ pygame.init()
 # Snake properties
 window_width = 800
 window_height = 600
-snake_color = (0, 255, 0)  # Green color
+snake_color = (255, 255, 0)  # Green color
 snake_size = 20
-snake_speed = 5
+snake_speed =5
+bomb_size = 20   #bomb_size
 food_size = 20
 food_x = random.randint(0, window_width - food_size)
 food_y = random.randint(0, window_height - food_size)
+############################---bomb --####################################
+bomb_x = random.randint(0, window_width - bomb_size)   # bomb_x
+bomb_y= random.randint(0, window_height - bomb_size)    # bomb _y 
 #############################################----2-----#####################################################
 # Draw the food
 food = pygame.Rect(food_x, food_y, food_size, food_size)
@@ -22,6 +26,17 @@ food_color = (255, 0, 0)  # Red color
 
 food_image = pygame.image.load("apple.png")
 food_image = pygame.transform.scale(food_image, (food_size, food_size))
+#################### bomb Draw ########################
+bomb = pygame.Rect(bomb_x, bomb_y, bomb_size, bomb_size)
+game_window = pygame.display.set_mode((window_width, window_height))
+pygame.display.set_caption("Snake Game by Amiran")
+bomb_color = (255, 0, 0)  # Red color
+
+bomb_image = pygame.image.load("bomb.png")
+bomb_image = pygame.transform.scale(bomb_image, (bomb_size, bomb_size))
+
+
+###########################################
 clock = pygame.time.Clock()
 
 #############################################----3-----#####################################################
@@ -51,7 +66,7 @@ def game_over(score):
 #############################################----5-----#####################################################
 def main():
     global score
-
+    bomb_size = 20
     snake_x = window_width // 2
     snake_y = window_height // 2
     snake_dx = 0
@@ -59,9 +74,15 @@ def main():
     snake_size = 20
     snake_body =[ pygame.Rect(snake_x, snake_y, snake_size, snake_size)]
     snake = pygame.Rect(snake_x, snake_y, snake_size, snake_size)
+    ############## food ##############
     food_x = random.randint(0, window_width - food_size)
     food_y = random.randint(0, window_height - food_size)
     food = pygame.Rect(food_x, food_y, food_size, food_size)
+    #############   bomb ##############
+    bomb_x = random.randint(0,window_width - bomb_size)
+    bomb_y = random.randint(0,window_height - bomb_size )
+    bomb = pygame.Rect(bomb_x, bomb_y, bomb_size, bomb_size)
+    ######################################
     score = 0
     high_score =0
 
@@ -86,15 +107,17 @@ def main():
                 elif event.key == pygame.K_RIGHT:
                     snake_dx = 1
                     snake_dy = 0
-
+            snake_speed= 5
             snake_x += snake_dx * snake_speed
             snake_y += snake_dy * snake_speed
             snake_size= 20
+            bomb_size =20
             snake_head = pygame.Rect(snake_x, snake_y, snake_size, snake_size)
-     
+            ###########  food colliderect  ################
             if snake_head.colliderect(food):
                     snake_size +=1
                     score += 1
+                    snake_speed += 1
                     high_score +=1
                     if score > high_score:
                         high_score = score
@@ -102,7 +125,27 @@ def main():
                     food_x = random.randint(0, window_width - food_size)
                     food_y = random.randint(0, window_height - food_size)
                     food = pygame.Rect(food_x, food_y, food_size, food_size)
-            
+                    bomb_x = random.randint(0, window_width - bomb_size)
+                    bomb_y = random.randint(0, window_height - bomb_size)
+                    bomb = pygame.Rect(bomb_x, bomb_y, bomb_size, bomb_size)
+            ####################   bomb colliderect #####################
+            if snake_head.colliderect(bomb):
+                    
+                    bomb_size =20
+                    #bomb_size -=1
+                    score -= 1
+                    snake_size -=1
+                    snake_speed -= 1
+                    high_score -=1
+                    if score > high_score:
+                        high_score = score
+                    if score <= -1 :    #bomb-ზე შეხებისას რესტარტი
+                        game_menu()
+                    snake_body.append(snake_body[-1])  # Grow the snake
+                    bomb_x = random.randint(0, window_width - bomb_size)
+                    bomb_y = random.randint(0, window_height - bomb_size)
+                    bomb = pygame.Rect(bomb_x, bomb_y, bomb_size, bomb_size)
+            ######################################################################
 
         if len(snake_body) < 1 and snake.colliderect(snake_body[i] for i in range(1, len(snake_body))):
             game_over(score)
@@ -129,6 +172,7 @@ def main():
         draw_snake(snake_body)
 
         game_window.blit(food_image, (food_x, food_y))
+        game_window.blit(bomb_image , (bomb_x, bomb_y))
         pygame.display.update()
         clock.tick(10)
 #############################################----6-----#####################################################
@@ -159,7 +203,6 @@ def game_menu():
 
             if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
                 return
-
 #############################################----8-----#####################################################
 game_menu()
 main()
