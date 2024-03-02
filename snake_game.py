@@ -24,12 +24,12 @@ food_image = pygame.image.load("apple.png")
 food_image = pygame.transform.scale(food_image, (food_size, food_size))
 clock = pygame.time.Clock()
 
-
+#############################################----3-----#####################################################
 def draw_snake(snake_body):
     for block in snake_body:
         pygame.draw.rect(game_window, snake_color, block)
 
-
+#############################################---4-----#####################################################
 def game_over(score):
     game_window.fill((0, 0, 0))
 
@@ -48,7 +48,7 @@ def game_over(score):
 
     pygame.display.update()
 
-
+#############################################----5-----#####################################################
 def main():
     global score
 
@@ -131,13 +131,14 @@ def main():
         game_window.blit(food_image, (food_x, food_y))
         pygame.display.update()
         clock.tick(10)
+#############################################----6-----#####################################################
 def draw_text(text, font, color, surface, x, y):
     text_surface = font.render(text, True, color)
     text_rect = text_surface.get_rect()
     text_rect.midtop = (x, y)
     surface.blit(text_surface, text_rect)
     font = pygame.font.Font(None, 48)
-
+#############################################----7-----#####################################################
 def game_menu():
     score=0
     high_score= score
@@ -159,6 +160,6 @@ def game_menu():
             if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
                 return
 
-
+#############################################----8-----#####################################################
 game_menu()
 main()
