@@ -3,10 +3,7 @@ import sys
 import random
 
 pygame.init()
-
-# Food properties
-
-
+#############################################----1-----#####################################################
 # Snake properties
 window_width = 800
 window_height = 600
@@ -16,7 +13,7 @@ snake_speed = 5
 food_size = 20
 food_x = random.randint(0, window_width - food_size)
 food_y = random.randint(0, window_height - food_size)
-
+#############################################----2-----#####################################################
 # Draw the food
 food = pygame.Rect(food_x, food_y, food_size, food_size)
 game_window = pygame.display.set_mode((window_width, window_height))
