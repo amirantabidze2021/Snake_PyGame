@@ -5,11 +5,11 @@ import random
 pygame.init()
 #############################################----1-----##################################
 # Snake properties
-window_width = 800
+window_width = 800  
 window_height = 600
 snake_color = (255, 255, 0)  # Green color
 snake_size = 20
-snake_speed =5
+snake_speed = 5
 bomb_size = 20   #bomb_size
 food_size = 20
 food_x = random.randint(0, window_width - food_size)
@@ -24,7 +24,7 @@ game_window = pygame.display.set_mode((window_width, window_height))
 pygame.display.set_caption("Snake Game by Amiran")
 food_color = (255, 0, 0)  # Red color
 
-food_image = pygame.image.load("apple.png")
+food_image = pygame.image.load("apple.png")   #apple picture
 food_image = pygame.transform.scale(food_image, (food_size, food_size))
 #################### bomb Draw ########################
 bomb = pygame.Rect(bomb_x, bomb_y, bomb_size, bomb_size)
